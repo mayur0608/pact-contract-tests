@@ -1,0 +1,28 @@
+name: Daily Pact Health Check
+
+on:
+  schedule:
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  pact_do_not_track: 'true'
+
+jobs:
+  pact-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run full Pact contract suite
+        run: mvn -B test

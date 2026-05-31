@@ -1,10 +1,10 @@
 package com.mayur.pact.consumer;
 
 import au.com.dius.pact.consumer.MockServer;
-import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
+import au.com.dius.pact.consumer.dsl.PactBuilder;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.core.model.RequestResponsePact;
+import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.mayur.pact.model.User;
 import org.junit.jupiter.api.Test;
@@ -30,8 +30,8 @@ class GetUserByIdConsumerPactTest {
     // ── Happy path: existing user ────────────────────────────────────────────
 
     @Pact(consumer = "OrderService", provider = "UserService")
-    public RequestResponsePact getUserByIdPact(PactDslWithProvider builder) {
-        return builder
+    public V4Pact getUserByIdPact(PactBuilder builder) {
+        return builder.usingLegacyDsl()
                 .given("user with id 1 exists")
                 .uponReceiving("a request to get user by id 1")
                     .path("/api/users/1")
@@ -46,7 +46,7 @@ class GetUserByIdConsumerPactTest {
                         body.stringMatcher("email", "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}", "mayur@example.com");
                         body.stringType("role", "QA_ENGINEER");
                     }).build())
-                .toPact();
+                .toPact(V4Pact.class);
     }
 
     @Test
@@ -67,8 +67,8 @@ class GetUserByIdConsumerPactTest {
     // ── Sad path: user not found ─────────────────────────────────────────────
 
     @Pact(consumer = "OrderService", provider = "UserService")
-    public RequestResponsePact getUserNotFoundPact(PactDslWithProvider builder) {
-        return builder
+    public V4Pact getUserNotFoundPact(PactBuilder builder) {
+        return builder.usingLegacyDsl()
                 .given("user with id 999 does not exist")
                 .uponReceiving("a request to get a non-existent user")
                     .path("/api/users/999")
@@ -82,7 +82,7 @@ class GetUserByIdConsumerPactTest {
                         body.stringType("error", "Not Found");
                         body.stringType("message", "User not found with id: 999");
                     }).build())
-                .toPact();
+                .toPact(V4Pact.class);
     }
 
     @Test

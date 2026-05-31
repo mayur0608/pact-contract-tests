@@ -1,10 +1,10 @@
 package com.mayur.pact.consumer;
 
 import au.com.dius.pact.consumer.MockServer;
-import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
+import au.com.dius.pact.consumer.dsl.PactBuilder;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.core.model.RequestResponsePact;
+import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.mayur.pact.model.User;
 import org.junit.jupiter.api.Test;
@@ -30,8 +30,8 @@ class UserCollectionConsumerPactTest {
     // ── GET all users ────────────────────────────────────────────────────────
 
     @Pact(consumer = "OrderService", provider = "UserService")
-    public RequestResponsePact getAllUsersPact(PactDslWithProvider builder) {
-        return builder
+    public V4Pact getAllUsersPact(PactBuilder builder) {
+        return builder.usingLegacyDsl()
                 .given("at least one user exists")
                 .uponReceiving("a request to get all users")
                     .path("/api/users")
@@ -48,7 +48,7 @@ class UserCollectionConsumerPactTest {
                             obj.stringType("role");
                         })
                     ).build())
-                .toPact();
+                .toPact(V4Pact.class);
     }
 
     @Test
@@ -70,8 +70,8 @@ class UserCollectionConsumerPactTest {
     // ── POST create user ─────────────────────────────────────────────────────
 
     @Pact(consumer = "OrderService", provider = "UserService")
-    public RequestResponsePact createUserPact(PactDslWithProvider builder) {
-        return builder
+    public V4Pact createUserPact(PactBuilder builder) {
+        return builder.usingLegacyDsl()
                 .given("the user service is available")
                 .uponReceiving("a request to create a new user")
                     .path("/api/users")
@@ -91,7 +91,7 @@ class UserCollectionConsumerPactTest {
                         body.stringType("email", "jane@example.com");
                         body.stringType("role", "TESTER");
                     }).build())
-                .toPact();
+                .toPact(V4Pact.class);
     }
 
     @Test

@@ -1,7 +1,7 @@
 # Pact Contract Tests
 
 ![CI](https://github.com/mayur0608/pact-contract-tests/actions/workflows/pact-ci.yml/badge.svg)
-![Java](https://img.shields.io/badge/Java-11-ED8B00?style=flat-square&logo=openjdk)
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=flat-square&logo=openjdk)
 ![Pact](https://img.shields.io/badge/Pact-4.6.7-E4393C?style=flat-square)
 ![JUnit5](https://img.shields.io/badge/JUnit-5-25A162?style=flat-square&logo=junit5)
 ![Maven](https://img.shields.io/badge/Maven-Multi--Module-C71A36?style=flat-square&logo=apachemaven)
@@ -41,7 +41,6 @@ pact-contract-tests/
 │           └── UserServiceProviderPactTest.java # Provider verification
 │
 ├── pacts/                             # Generated pact JSON files (git-ignored)
-├── auto_commit_agent.py               # Daily activity agent
 └── pom.xml                            # Multi-module Maven parent
 ```
 
@@ -61,7 +60,7 @@ pact-contract-tests/
 ## Running the Tests
 
 ### Prerequisites
-- Java 11+
+- Java 17+
 - Maven 3.8+
 
 ### Step 1 — Run consumer tests (generates pact files)
@@ -105,10 +104,10 @@ void userWithId1Exists() {
 
 ## CI Pipeline
 
-GitHub Actions runs consumer → provider in sequence on every push:
+GitHub Actions runs consumer → provider in sequence on every push, pull request, and daily health-check schedule:
 
 ```
-push → consumer tests → pact files → provider verification → pass/fail
+push / pull request / schedule → consumer tests → pact files → provider verification → pass/fail
 ```
 
 ---

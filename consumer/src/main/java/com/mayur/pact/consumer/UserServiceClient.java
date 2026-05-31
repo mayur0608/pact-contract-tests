@@ -1,5 +1,6 @@
 package com.mayur.pact.consumer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mayur.pact.model.User;
 
@@ -24,7 +25,8 @@ public class UserServiceClient {
     public UserServiceClient(String baseUrl) {
         this.baseUrl = baseUrl;
         this.httpClient = HttpClient.newHttpClient();
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public User getUserById(int id) throws IOException, InterruptedException {

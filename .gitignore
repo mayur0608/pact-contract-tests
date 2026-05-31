@@ -1,0 +1,14 @@
+# Maven build output
+target/
+*/target/
+
+# Local Maven cache used by sandboxed or isolated runs
+.m2/
+
+# Generated Pact contracts
+pacts/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
