@@ -2,8 +2,11 @@ name: Daily Activity Commit
 
 on:
   schedule:
-    - cron: '30 7 * * *'   # 1:00 PM IST daily
+    - cron: '30 7 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   commit:
@@ -25,4 +28,5 @@ jobs:
       - name: Daily commit
         run: python auto_commit_agent.py --single
 
-      - run: git push
+      - name: Push
+        run: git push
