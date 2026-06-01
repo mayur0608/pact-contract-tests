@@ -27,6 +27,7 @@
         <springboot.version>3.2.0</springboot.version>
         <jackson.version>2.16.0</jackson.version>
         <compiler.version>3.11.0</compiler.version>
+        <enforcer.version>3.5.0</enforcer.version>
         <surefire.version>3.2.2</surefire.version>
     </properties>
 
@@ -95,5 +96,28 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${enforcer.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-java-17</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[17,)</version>
+                                    <message>This project requires Java 17 or newer because Pact JVM 4.6.x and Spring Boot 3 use Java 17 bytecode.</message>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
