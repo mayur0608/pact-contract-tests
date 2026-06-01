@@ -24,6 +24,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Show Java and Maven versions
+        run: |
+          java -version
+          mvn -version
+
       - name: Run consumer tests (generates pact files)
         run: mvn test -pl consumer -Dpact.rootDir=${{ github.workspace }}/pacts
 
@@ -46,6 +51,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+
+      - name: Show Java and Maven versions
+        run: |
+          java -version
+          mvn -version
 
       - name: Download pact files
         uses: actions/download-artifact@v4

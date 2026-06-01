@@ -24,5 +24,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Show Java and Maven versions
+        run: |
+          java -version
+          mvn -version
+
       - name: Run full Pact contract suite
         run: mvn -B test
